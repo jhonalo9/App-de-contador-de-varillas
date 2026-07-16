@@ -1,3 +1,4 @@
+import 'package:app_varillas/core/services/detection_mode_service.dart';
 import 'package:app_varillas/features/counting/presentation/pages/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,10 +16,36 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   final ImagePicker _picker = ImagePicker();
   bool _isProcessing = false;
+  DetectionMode _currentMode = DetectionMode.roboflow;
 
   @override
   void dispose() {
     super.dispose();
+    _loadMode();
+  }
+
+  Future<void> _loadMode() async {
+    final mode = await DetectionModeService.getMode();
+    setState(() => _currentMode = mode);
+  }
+
+  Future<void> _toggleMode(bool useLocal) async {
+    final newMode = useLocal ? DetectionMode.local : DetectionMode.roboflow;
+    await DetectionModeService.setMode(newMode);
+    setState(() => _currentMode = newMode);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            useLocal
+                ? '🖥️ Modo LOCAL activado (servidor Docker)'
+                : '☁️ Modo ROBOFLOW activado (nube)',
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -114,6 +141,21 @@ class _CameraScreenState extends State<CameraScreen> {
         title: const Text('Contar Varillas'),
         backgroundColor: const Color(0xFF1B5E20),
         actions: [
+          Row(
+              children: [
+                Icon(
+                  _currentMode == DetectionMode.local ? Icons.dns : Icons.cloud,
+                  size: 20,
+                  color: Colors.white,
+                ),
+                const SizedBox(width: 4),
+                Switch(
+                  value: _currentMode == DetectionMode.local,
+                  onChanged: (value) => _toggleMode(value),
+                  activeColor: Colors.white,
+                ),
+              ],
+            ),
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
