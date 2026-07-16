@@ -5,7 +5,7 @@ import 'lib/core/services/python_bridge_service.dart';
 void main() async {
   print('=== TEST PYTHON BRIDGE ===\n');
   
-  final imageFile = File('imagenes/YOUR_IMAGE.png');
+  final imageFile = File('imagenes/dolo.png');
   
   if (!await imageFile.exists()) {
     print('❌ Imagen no encontrada');

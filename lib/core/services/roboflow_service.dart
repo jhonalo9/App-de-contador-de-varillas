@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class RoboflowService {
-  static const String _apiKey = "0XKzAOYpN62OTpgqoPQo";
-  static const String _workspaceId = "jelrs-workspace";
-  static const String _workflowId = "general-segmentation-api-4";
+  static const String _apiKey = "q8xKJdqtOdHRCtYP3H6o";
+  static const String _workspaceId = "leysers-workspace";
+  static const String _workflowId = "general-segmentation-api";
 
   static Future<int> detectSteelBars(File imageFile) async {
     try {

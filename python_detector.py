@@ -5,9 +5,9 @@ import os
 from inference_sdk import InferenceHTTPClient
 
 # Configuración fija
-API_KEY = "0XKzAOYpN62OTpgqoPQo"
-WORKSPACE = "jelrs-workspace"
-WORKFLOW_ID = "general-segmentation-api-4"
+API_KEY = "q8xKJdqtOdHRCtYP3H6o"
+WORKSPACE = "leysers-workspace"
+WORKFLOW_ID = "general-segmentation-api" 
 
 # Inicializar cliente (una sola vez para mejor rendimiento)
 client = InferenceHTTPClient(
